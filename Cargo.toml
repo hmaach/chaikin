@@ -1,0 +1,10 @@
+[package]
+name = "chaikin"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+minifb = "0.24"
+image = "0.24"
+rand = "0.9.1"
+raster = "0.2.0"
