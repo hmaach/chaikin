@@ -1,5 +1,5 @@
 use rand::Rng;
-use raster::{Color, Image};
+use raster::{ Color, Image };
 
 pub trait Drawable {
     fn draw(&self, image: &mut Image);
@@ -23,11 +23,6 @@ impl Point {
     pub fn new(x: i32, y: i32) -> Self {
         Self(x, y)
     }
-    pub fn random(width: i32, height: i32) -> Self {
-        let x = rand::rng().random_range(0..width);
-        let y = rand::rng().random_range(0..height);
-        Self(x, y)
-    }
 }
 
 impl Drawable for Point {
@@ -41,8 +36,10 @@ impl Drawable for Point {
 pub struct Line(Point, Point, Color);
 
 impl Line {
-    pub fn new(p1: &Point, p2: &Point, color: Color) -> Self {
-        Self(p1.clone(), p2.clone(), color.clone())
+    pub fn new(p1: &Point, p2: &Point) -> Self {
+        let color: Color = Self::color();
+
+        Self(p1.clone(), p2.clone(), color)
     }
 }
 
@@ -65,13 +62,55 @@ impl Drawable for Line {
         let mut new_x: f32 = start_x as f32;
         let mut new_y: f32 = start_y as f32;
 
-        let x_inc = dis_x as f32 / steps as f32;
-        let y_inc = dis_y as f32 / steps as f32;
+        let x_inc = (dis_x as f32) / (steps as f32);
+        let y_inc = (dis_y as f32) / (steps as f32);
 
         for _ in 0..=steps {
             image.display(new_x.round() as i32, new_y.round() as i32, color.clone());
             new_x += x_inc;
             new_y += y_inc;
+        }
+    }
+}
+
+// circle struct
+#[derive(Debug, Clone)]
+pub struct Circle(Point, i32);
+
+impl Circle {
+    pub fn new(x: i32, y: i32, r: i32) -> Self {
+        Self(Point(x - r / 2, y - r / 2), r)
+    }
+}
+
+impl Drawable for Circle {
+    fn draw(&self, image: &mut Image) {
+        // get a random color
+        let color: Color = Self::color();
+
+        let center_x: i32 = self.0.0;
+        let center_y: i32 = self.0.1;
+        let raduis: i32 = self.1;
+
+        let mut x: i32 = 0;
+        let mut y: i32 = -raduis;
+
+        while x < -y {
+            let y_mid = (y as f64) + 0.5;
+            if (x.pow(2) as f64) + y_mid.powf(2.0) > ((raduis * raduis) as f64) {
+                y += 1;
+            }
+
+            image.display(center_x + x, center_y + y, color.clone());
+            image.display(center_x - x, center_y + y, color.clone());
+            image.display(center_x + x, center_y - y, color.clone());
+            image.display(center_x - x, center_y - y, color.clone());
+            image.display(center_x + y, center_y + x, color.clone());
+            image.display(center_x - y, center_y + x, color.clone());
+            image.display(center_x + y, center_y - x, color.clone());
+            image.display(center_x - y, center_y - x, color.clone());
+
+            x += 1;
         }
     }
 }

@@ -1,4 +1,4 @@
-use minifb::{ Key, MouseButton, MouseMode, Window as MiniWindow, WindowOptions };
+use minifb::{ Key, KeyRepeat, MouseButton, MouseMode, Window as MiniWindow, WindowOptions };
 use raster::{ Color, Image };
 
 use crate::geometrical_shapes as gs;
@@ -9,6 +9,11 @@ pub struct Window {
     pub image: Image,
     width: usize,
     height: usize,
+}
+
+pub enum Mode {
+    Drawing,
+    Animating,
 }
 
 impl Window {
@@ -36,8 +41,12 @@ impl Window {
         self.window.is_open() && !self.window.is_key_down(Key::Escape)
     }
 
-    pub fn get_mouse_down(&self, button: MouseButton) -> bool {
-        self.window.get_mouse_down(button)
+    pub fn get_mouse_down(&self) -> bool {
+        self.window.get_mouse_down(MouseButton::Left)
+    }
+
+    pub fn is_enter_pressed(&self) -> bool {
+        self.window.is_key_pressed(Key::Enter, KeyRepeat::No)
     }
 
     pub fn get_mouse_pos(&self, mode: MouseMode) -> Option<(f32, f32)> {
