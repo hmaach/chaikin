@@ -23,11 +23,13 @@ impl Window {
 
         let image = Image::blank(WIDTH as i32, HEIGHT as i32);
 
-        let mut window = MiniWindow::new("CHAIKIN", WIDTH, HEIGHT, WindowOptions::default()).expect(
-            "Unable to open window"
-        );
+        let window = MiniWindow::new("CHAIKIN", WIDTH, HEIGHT, WindowOptions {
+            borderless: false,
+            resize: false,
+            ..WindowOptions::default()
+        }).expect("Unable to open window");
 
-        window.set_position(1000, 100);
+        // window.set_position(1000, 100);
 
         Self {
             window,

@@ -27,13 +27,25 @@ impl Point {
 
 impl Drawable for Point {
     fn draw(&self, image: &mut Image) {
-        image.display(self.0, self.1, self.2.clone());
+        let cx = self.0;
+        let cy = self.1;
+        let radius = 3;
+
+        for x in cx - radius..=cx + radius {
+            for y in cy - radius..=cy + radius {
+                let dx = x - cx;
+                let dy = y - cy;
+                if dx * dx + dy * dy <= radius * radius {
+                    image.display(x, y, self.2.clone());
+                }
+            }
+        }
     }
 }
 
 // line struct
 #[derive(Debug, Clone)]
-pub struct Line(Point, Point, Color);
+pub struct Line(pub Point, pub Point, pub Color);
 
 impl Line {
     pub fn new(p1: &Point, p2: &Point, color: &Color) -> Self {
