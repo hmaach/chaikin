@@ -46,16 +46,16 @@ struct App {
 }
 
 impl App {
-    fn new() -> Self {
-        Self {
-            points: Vec::new(),
-            state: AppState::Drawing,
-            is_dragging: None,
-            animation_timer: 0.0,
-            current_step: 0,
-            animation_steps: Vec::new(),
-        }
-    }
+    // fn new() -> Self {
+    //     Self {
+    //         points: Vec::new(),
+    //         state: AppState::Drawing,
+    //         is_dragging: None,
+    //         animation_timer: 0.0,
+    //         current_step: 0,
+    //         animation_steps: Vec::new(),
+    //     }
+    // }
     
     fn update(&mut self, dt: f32) {
         match self.state {
