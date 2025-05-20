@@ -17,17 +17,17 @@ pub trait Displayable {
 
 // point struct
 #[derive(Debug, Clone)]
-pub struct Point(pub i32, pub i32);
+pub struct Point(pub i32, pub i32, pub Color);
 
 impl Point {
-    pub fn new(x: i32, y: i32) -> Self {
-        Self(x, y)
+    pub fn new(x: i32, y: i32, color: Color) -> Self {
+        Self(x, y, color)
     }
 }
 
 impl Drawable for Point {
     fn draw(&self, image: &mut Image) {
-        image.display(self.0, self.1, Self::color());
+        image.display(self.0, self.1, self.2.clone());
     }
 }
 
@@ -36,10 +36,8 @@ impl Drawable for Point {
 pub struct Line(Point, Point, Color);
 
 impl Line {
-    pub fn new(p1: &Point, p2: &Point) -> Self {
-        let color: Color = Self::color();
-
-        Self(p1.clone(), p2.clone(), color)
+    pub fn new(p1: &Point, p2: &Point, color: &Color) -> Self {
+        Self(p1.clone(), p2.clone(), color.clone())
     }
 }
 
@@ -50,9 +48,11 @@ impl Drawable for Line {
 
         let start_x: i32 = self.0.0;
         let start_y: i32 = self.0.1;
+        Point::new(start_x, start_y, color.clone()).draw(image);
 
         let end_x: i32 = self.1.0;
         let end_y: i32 = self.1.1;
+        Point::new(end_x, end_y, color.clone()).draw(image);
 
         let dis_x: i32 = end_x - start_x; // distance between the x of start & end points
         let dis_y: i32 = end_y - start_y; // distance between the y of start & end points
@@ -78,15 +78,14 @@ impl Drawable for Line {
 pub struct Circle(Point, i32);
 
 impl Circle {
-    pub fn new(x: i32, y: i32, r: i32) -> Self {
-        Self(Point(x - r / 2, y - r / 2), r)
+    pub fn new(x: i32, y: i32, r: i32, color: Color) -> Self {
+        Self(Point(x - r / 2, y - r / 2, color), r)
     }
 }
 
 impl Drawable for Circle {
     fn draw(&self, image: &mut Image) {
         // get a random color
-        let color: Color = Self::color();
 
         let center_x: i32 = self.0.0;
         let center_y: i32 = self.0.1;
@@ -101,14 +100,14 @@ impl Drawable for Circle {
                 y += 1;
             }
 
-            image.display(center_x + x, center_y + y, color.clone());
-            image.display(center_x - x, center_y + y, color.clone());
-            image.display(center_x + x, center_y - y, color.clone());
-            image.display(center_x - x, center_y - y, color.clone());
-            image.display(center_x + y, center_y + x, color.clone());
-            image.display(center_x - y, center_y + x, color.clone());
-            image.display(center_x + y, center_y - x, color.clone());
-            image.display(center_x - y, center_y - x, color.clone());
+            image.display(center_x + x, center_y + y, self.0.2.clone());
+            image.display(center_x - x, center_y + y, self.0.2.clone());
+            image.display(center_x + x, center_y - y, self.0.2.clone());
+            image.display(center_x - x, center_y - y, self.0.2.clone());
+            image.display(center_x + y, center_y + x, self.0.2.clone());
+            image.display(center_x - y, center_y + x, self.0.2.clone());
+            image.display(center_x + y, center_y - x, self.0.2.clone());
+            image.display(center_x - y, center_y - x, self.0.2.clone());
 
             x += 1;
         }
