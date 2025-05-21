@@ -1,0 +1,82 @@
+Setup and Project Structure
+
+ Initialize a new Rust project with Cargo
+ Add macroquad dependency to Cargo.toml
+ Set up basic window configuration
+ Create project directory structure
+
+Core Data Structures
+
+ Define Point struct with x and y coordinates
+ Implement AppState enum (Drawing and Animating states)
+ Create App struct to manage application state
+ Implement helper methods for Point (distance calculation, etc.)
+
+Drawing Mode Implementation
+
+ Implement point placement with left mouse button
+ Add visual representation for control points (circles)
+ Draw lines between control points
+ Implement point selection and dragging functionality
+ Add state transition to animation mode when Enter is pressed
+
+Chaikin's Algorithm Implementation
+
+ Implement the core Chaikin's subdivision algorithm
+ Handle edge cases (1 point, 2 points)
+ Generate all 7 steps of the algorithm at animation start
+ Store animation steps for playback
+
+Animation System
+
+ Create animation timer logic
+ Implement step-by-step visualization of the algorithm
+ Add animation restart after 7 steps
+ Display current step counter during animation
+ Return to drawing mode after animation completes
+
+User Interface
+
+ Add on-screen instructions for user guidance
+ Implement clear screen functionality (C key)
+ Add visual feedback for draggable points
+ Display appropriate messages for special cases
+ Ensure consistent visual styling across the application
+
+Input Handling
+
+ Process mouse input for point placement and dragging
+ Handle keyboard input (Enter, Escape, C keys)
+ Implement input state management
+ Add graceful exit functionality
+
+Testing and Refinement
+
+ Test with various input patterns
+ Verify algorithm correctness for different point configurations
+ Optimize performance if needed
+ Check edge cases (no points, single point, etc.)
+ Test animation timing and transitions
+
+Bonus Features
+
+ Implement clear screen functionality with C key
+ Add real-time point dragging
+ Consider adding curve smoothness control
+ Add option to change animation speed
+ Implement color schemes for different animation steps
+
+Documentation
+
+ Add comments to explain key parts of the code
+ Create README with usage instructions
+ Document the implementation of Chaikin's algorithm
+ Add references to resources about the algorithm
+
+Final Polishing
+
+ Review and refactor code for readability
+ Optimize rendering for smoother animations
+ Add better visual indication of current state
+ Ensure graceful handling of window resizing
+ Final testing across different input scenarios
