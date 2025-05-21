@@ -55,6 +55,12 @@ impl Window {
         self.window.get_mouse_pos(mode)
     }
 
+    pub fn clear_image(&mut self) {
+        for pixel in self.image.bytes.iter_mut() {
+            *pixel = 0;
+        }
+    }
+
     pub fn update(&mut self) -> Result<(), minifb::Error> {
         let buffer: Vec<u32> = self.image.bytes
             .chunks(4)

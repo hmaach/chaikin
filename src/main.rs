@@ -20,25 +20,29 @@ fn main() {
     let mut ops_count: u8 = 0;
     let mut mode = Mode::Drawing;
     let mut last_chaikin_time = Instant::now();
-    let chaikin_cooldown = Duration::from_secs_f32(0.5); // 0.5 seconds cooldown
+    let chaikin_cooldown = Duration::from_secs_f32(1.5);
     let point_color = Color::rgb(200, 200, 200);
 
     while window.is_open() {
         let mouse_down = window.get_mouse_down();
 
+        window.clear_image();
+
         if let Mode::Drawing = mode {
             if mouse_down && !prev_mouse_down {
                 if let Some((x, y)) = window.get_mouse_pos(MouseMode::Clamp) {
                     points.push(Point(x as i32, y as i32, point_color.clone()));
-                    Circle::new(x as i32, y as i32, 3, point_color.clone()).draw(&mut window.image);
                 }
             }
 
-            if window.is_enter_pressed() {
-
+            if window.is_enter_pressed() && points.len() > 0 {
 
                 mode = Mode::Animating;
             }
+        }
+
+        for point in &mut points {
+            Circle::new(point.0, point.1 as i32, 3, point.2.clone()).draw(&mut window.image);
         }
 
         if let Mode::Animating = mode {
@@ -46,13 +50,12 @@ fn main() {
                 apply_chaikin(&mut lines, &points, &mut ops_count);
                 last_chaikin_time = Instant::now();
             }
-
             let color = Line::color();
-
             for line in &mut lines {
                 line.2 = color.clone();
                 line.draw(&mut window.image);
             }
+
         }
         prev_mouse_down = mouse_down;
 

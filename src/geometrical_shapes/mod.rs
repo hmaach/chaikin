@@ -29,7 +29,7 @@ impl Drawable for Point {
     fn draw(&self, image: &mut Image) {
         let cx = self.0;
         let cy = self.1;
-        let radius = 3;
+        let radius = 2;
 
         for x in cx - radius..=cx + radius {
             for y in cy - radius..=cy + radius {
